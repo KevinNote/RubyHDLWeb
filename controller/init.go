@@ -1,13 +1,14 @@
 package controller
 
 import (
-	"github.com/KevinZonda/GinTemplate/controller/ping"
-	"github.com/KevinZonda/GinTemplate/controller/types"
+	"github.com/KevinZonda/RubyDHLWeb/controller/ping"
+	"github.com/KevinZonda/RubyDHLWeb/controller/ruby"
+	"github.com/KevinZonda/RubyDHLWeb/controller/types"
 	"github.com/gin-gonic/gin"
 )
 
 func Init(r gin.IRouter) {
-	register(r, &ping.Controller{})
+	register(r, &ping.Controller{}, &ruby.Controller{})
 }
 
 func register(r gin.IRouter, cs ...types.IController) {

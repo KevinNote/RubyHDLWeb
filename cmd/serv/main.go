@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/KevinZonda/GinTemplate/controller"
-	"github.com/KevinZonda/GinTemplate/shared"
 	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/GoX/pkg/panicx"
+	"github.com/KevinZonda/RubyDHLWeb/controller"
+	"github.com/KevinZonda/RubyDHLWeb/shared"
 )
 
 func initCfg() {
