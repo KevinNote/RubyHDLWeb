@@ -17,7 +17,8 @@ type Controller struct{}
 var _ types.IController = (*Controller)(nil)
 
 func (c *Controller) Init(r gin.IRouter) {
-	r.POST("/compile", c.Compile)
+	r.POST("/ruby/compile", c.Compile)
+	r.POST("/ruby/run", c.Run)
 }
 
 type CompileReq struct {
