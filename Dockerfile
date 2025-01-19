@@ -16,7 +16,7 @@ FROM ubuntu:latest
 
 WORKDIR /app
 
-RUN apt update && apt install -y smlnj tini && apt clean
+RUN apt update && apt install -y smlnj && apt clean
 
 COPY --from=builder /app/build .
 
@@ -28,4 +28,4 @@ COPY ruby/ /ruby/
 
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/bin/tini", "--", "/app/serv"]
+ENTRYPOINT ["/app/serv"]
