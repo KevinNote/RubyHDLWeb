@@ -33,7 +33,7 @@ func (r *RubyDHL) Rc(dir string, rby string) (string, error) {
 	cmd := exec.Command("pwd")
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
-	log.Println("[PWD]", out, err)
+	log.Println("[PWD]", string(out), err)
 
 	cmd = exec.Command("sml", "@SMLload='"+r.rc+"'", rby)
 	cmd.Dir = dir
