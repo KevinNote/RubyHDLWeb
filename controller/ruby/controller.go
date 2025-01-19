@@ -58,7 +58,7 @@ func (ctr *Controller) Compile(c *gin.Context) {
 
 	iox.WriteAllText(rby, req.Code)
 
-	rcOut, err := shared.Ruby.Rc(task.Dir, rby)
+	rcOut, err := shared.Ruby.Rc(task.Dir, "main.rby")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, CompileRes{
 			TaskId:     task.Id,
@@ -120,7 +120,7 @@ func (ctr *Controller) Run(c *gin.Context) {
 		return
 	}
 
-	out, err := shared.Ruby.Re(task.Dir, task.File("current.rbs"), req.Input)
+	out, err := shared.Ruby.Re(task.Dir, "current.rbs", req.Input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, RunRes{
 			Err: out,
