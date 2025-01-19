@@ -20,6 +20,7 @@ func NewRubyDHL(rc, re string) *RubyDHL {
 func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
 	cmd := exec.Command(r.re, "-r", rbs, input)
 	cmd.Dir = dir
+
 	out, err := cmd.Output()
 	log.Println("[RE]", dir, string(out), err)
 	if err != nil {
@@ -33,5 +34,10 @@ func (r *RubyDHL) Rc(dir string, rby string) (string, error) {
 	cmd.Dir = dir
 	out, err := cmd.Output()
 	log.Println("[RC]", dir, string(out), err, cmd, cmd.Args)
+	cmd = exec.Command("pwd")
+	cmd.Dir = dir
+	out, err = cmd.Output()
+	log.Println("[PWD]", dir, string(out), err, cmd, cmd.Args)
+
 	return string(out), err
 }
