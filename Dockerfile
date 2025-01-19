@@ -28,4 +28,4 @@ COPY ruby/ /ruby/
 
 EXPOSE 8080
 
-CMD ["./build"]
+CMD ["./serv"]
