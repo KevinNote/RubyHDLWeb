@@ -1,6 +1,7 @@
 package RubyDHL
 
 import (
+	"fmt"
 	"os/exec"
 )
 
@@ -20,6 +21,7 @@ func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
 	cmd := exec.Command(r.re, "-r", rbs, input)
 	cmd.Dir = dir
 	out, err := cmd.Output()
+	fmt.Println(string(out), err)
 	if err != nil {
 		return "", err
 	}
