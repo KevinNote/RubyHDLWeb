@@ -16,9 +16,6 @@ func initGin() {
 	}
 
 	Engine = gin.Default()
-
-	Engine.Use(gin.Recovery())
-	Engine.Use(gin.Logger())
 	Engine.Use(cors.Default()) //allow all origins
 }
 
