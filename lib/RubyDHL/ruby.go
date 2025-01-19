@@ -30,14 +30,9 @@ func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
 }
 
 func (r *RubyDHL) Rc(dir string, rby string) (string, error) {
-	cmd := exec.Command("pwd")
+	cmd := exec.Command("sml", "@SMLload="+r.rc, rby)
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
-	log.Println("[PWD]", string(out), err)
-
-	cmd = exec.Command("sml", "@SMLload='"+r.rc+"'", rby)
-	cmd.Dir = dir
-	out, err = cmd.CombinedOutput()
 	log.Println("[RC]", dir, string(out), err, cmd, cmd.Args)
 	return string(out), err
 }
