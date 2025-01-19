@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/GoX/pkg/panicx"
 	"github.com/KevinZonda/RubyDHLWeb/controller"
@@ -14,9 +16,13 @@ func initCfg() {
 }
 
 func main() {
+	fmt.Println("Loading Config...")
 	initCfg()
+
+	fmt.Println("Initialising Shared...")
 	shared.Init()
 
+	fmt.Println("Initialising Controller...")
 	controller.Init(shared.Engine)
 
 	shared.RunGin()
