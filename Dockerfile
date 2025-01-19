@@ -28,4 +28,4 @@ COPY ruby/ /ruby/
 
 EXPOSE 8080
 
-CMD ["./serv"]
+ENTRYPOINT ["./serv"]
