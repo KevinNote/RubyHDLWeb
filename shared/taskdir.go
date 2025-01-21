@@ -1,9 +1,9 @@
 package shared
 
 import (
+	"os"
 	"path/filepath"
 
-	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/RubyDHLWeb/lib/taskdir"
 )
 
@@ -13,7 +13,8 @@ func initTaskDir() {
 	cfg := GetConfig()
 	TaskDir = taskdir.NewTaskDir(cfg.TaskDir, func(info taskdir.TaskInfo) error {
 		if len(Prelude) > 0 {
-			return iox.WriteAllBytes(filepath.Join(info.Dir, "prelude.rby"), Prelude)
+			return os.Symlink(PreludePath, filepath.Join(info.Dir, "prelude.rby"))
+			//return iox.WriteAllBytes(filepath.Join(info.Dir, "prelude.rby"), Prelude)
 		}
 		return nil
 	})
