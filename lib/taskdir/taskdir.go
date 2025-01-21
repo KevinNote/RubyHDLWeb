@@ -55,20 +55,29 @@ func (t *TaskDir) RemoveTask(taskId string) error {
 	return os.RemoveAll(t.idToDir(taskId))
 }
 
-func (t *TaskDir) JoinTask(taskId string) string {
+func (t *TaskDir) JoinTask(taskId string) TaskInfo {
 	path := t.idToDir(taskId)
 	_, err := os.Stat(path)
 	log.Println(err)
 	if err == nil {
-		return path
+		return TaskInfo{
+			Id:  taskId,
+			Dir: path,
+		}
 	}
 	if !os.IsNotExist(err) {
 		// TODO: FATAL
-		return path
+		return TaskInfo{
+			Id:  taskId,
+			Dir: path,
+		}
 	}
 
 	if info, err := t.NewTask(); err == nil {
-		return info.Dir
+		return info
 	}
-	return path
+	return TaskInfo{
+		Id:  taskId,
+		Dir: path,
+	}
 }

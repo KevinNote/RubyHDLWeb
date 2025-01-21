@@ -51,7 +51,7 @@ func (ctr *Controller) Compile(c *gin.Context) {
 			return
 		}
 	} else {
-		task.Dir = shared.TaskDir.JoinTask(task.Id)
+		task = shared.TaskDir.JoinTask(task.Id)
 	}
 
 	rby := task.File("main.rby")
@@ -88,6 +88,7 @@ type RunReq struct {
 }
 
 type RunRes struct {
+	TaskId string `json:"task_id"`
 	Output string `json:"output"`
 	Err    string `json:"err"`
 }
@@ -111,11 +112,12 @@ func (ctr *Controller) Run(c *gin.Context) {
 		return
 	}
 
-	task.Dir = shared.TaskDir.JoinTask(task.Id)
+	task = shared.TaskDir.JoinTask(task.Id)
 
 	if _, err := os.Stat(task.File("current.rbs")); os.IsNotExist(err) {
 		c.JSON(http.StatusBadRequest, RunRes{
-			Err: "compile first",
+			TaskId: task.Id,
+			Err:    "compile first",
 		})
 		return
 	}
@@ -123,12 +125,14 @@ func (ctr *Controller) Run(c *gin.Context) {
 	out, err := shared.Ruby.Re(task.Dir, "current.rbs", req.Input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, RunRes{
-			Err: out,
+			TaskId: task.Id,
+			Err:    out,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, RunRes{
+		TaskId: task.Id,
 		Output: out,
 	})
 }
