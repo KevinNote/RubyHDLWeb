@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t "ruby-dhl" .
+docker build -t "ruby-hdl" .
