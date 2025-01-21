@@ -1,6 +1,7 @@
 package ruby
 
 import (
+	"log"
 	"net/http"
 	"os"
 
@@ -112,6 +113,7 @@ func (ctr *Controller) Run(c *gin.Context) {
 	}
 
 	task.Dir = shared.TaskDir.JoinTask(task.Id)
+	log.Println(task.Id, task.Dir)
 
 	if _, err := os.Stat(task.File("current.rbs")); os.IsNotExist(err) {
 		c.JSON(http.StatusBadRequest, RunRes{
