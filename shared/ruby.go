@@ -1,13 +1,14 @@
 package shared
 
 import (
-	"github.com/KevinZonda/RubyDHLWeb/lib/RubyDHL"
 	"time"
+
+	"github.com/KevinZonda/RubyDHLWeb/lib/RubyHDL"
 )
 
-var Ruby *RubyDHL.RubyDHL
+var Ruby *RubyHDL.RubyHDL
 
 func initRuby() {
 	cfg := GetConfig()
-	Ruby = RubyDHL.NewRubyDHL(cfg.RcPath, cfg.RePath, time.Second*time.Duration(cfg.Timeout))
+	Ruby = RubyHDL.NewRubyHDL(cfg.RcPath, cfg.RePath, time.Second*time.Duration(cfg.Timeout))
 }

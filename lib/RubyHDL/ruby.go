@@ -1,4 +1,4 @@
-package RubyDHL
+package RubyHDL
 
 import (
 	"context"
@@ -7,28 +7,28 @@ import (
 	"time"
 )
 
-type RubyDHL struct {
+type RubyHDL struct {
 	rc      string
 	re      string
 	timeout time.Duration
 }
 
-func NewRubyDHL(rc, re string, timeout time.Duration) *RubyDHL {
-	return &RubyDHL{
+func NewRubyHDL(rc, re string, timeout time.Duration) *RubyHDL {
+	return &RubyHDL{
 		rc:      rc,
 		re:      re,
 		timeout: timeout,
 	}
 }
 
-func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
+func (r *RubyHDL) Re(dir string, rbs string, input string) (string, error) {
 	ctx := context.Background()
 	if r.timeout > 0 {
 		var cancel context.CancelFunc
 		ctx, cancel = context.WithTimeout(ctx, r.timeout)
 		defer cancel()
 	}
-	
+
 	cmd := exec.CommandContext(ctx, r.re, "-r", rbs, input)
 	cmd.Dir = dir
 
@@ -40,7 +40,7 @@ func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
 	return string(out), nil
 }
 
-func (r *RubyDHL) Rc(dir string, rby string) (string, error) {
+func (r *RubyHDL) Rc(dir string, rby string) (string, error) {
 	ctx := context.Background()
 	if r.timeout > 0 {
 		var cancel context.CancelFunc
