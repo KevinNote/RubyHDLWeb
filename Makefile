@@ -15,6 +15,10 @@ build:
 build-debug:
 	go build -v -gcflags="all=-N -l" -o build/serv cmd/serv/main.go
 
+postbuild:
+	mkdir -p build/tmp/task
+	cp config.json build/
+
 run:
 	./build/serv
 
