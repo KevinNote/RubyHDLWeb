@@ -11,11 +11,12 @@ var TaskDir *taskdir.TaskDir
 
 func initTaskDir() {
 	cfg := GetConfig()
-	TaskDir = taskdir.NewTaskDir(cfg.TaskDir, func(info taskdir.TaskInfo) error {
-		if len(Prelude) > 0 {
-			return os.Symlink(PreludePath, filepath.Join(info.Dir, "prelude.rby"))
-			//return iox.WriteAllBytes(filepath.Join(info.Dir, "prelude.rby"), Prelude)
+	preludePath := cfg.Prelude
+	var taskInit func(info taskdir.TaskInfo) error
+	if len(preludePath) > 0 {
+		taskInit = func(info taskdir.TaskInfo) error {
+			return os.Symlink(preludePath, filepath.Join(info.Dir, "prelude.rby"))
 		}
-		return nil
-	})
+	}
+	TaskDir = taskdir.NewTaskDir(cfg.TaskDir, taskInit)
 }

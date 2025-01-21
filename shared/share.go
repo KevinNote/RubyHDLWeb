@@ -4,5 +4,4 @@ func Init() {
 	initGin()
 	initRuby()
 	initTaskDir()
-	initPrelude()
 }
