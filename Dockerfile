@@ -9,7 +9,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN bash build.sh
+RUN go build -v -o build/serv cmd/serv/main.go
 
 # Run stage
 FROM ubuntu:latest
