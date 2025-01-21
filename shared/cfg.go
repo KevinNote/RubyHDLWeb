@@ -1,6 +1,8 @@
 package shared
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Config struct {
 	Addr  string `json:"addr"`
@@ -12,6 +14,8 @@ type Config struct {
 
 	RcPath string `json:"rc_path"`
 	RePath string `json:"re_path"`
+
+	Timeout int `json:"timeout"` // timeout for exec, in second
 }
 
 var cfg *Config
