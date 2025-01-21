@@ -15,6 +15,6 @@ func (c *Controller) Init(r gin.IRouter) {
 	})
 
 	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Imperial Ruby DHL API EndPoint. Operated by KevinZonda.")
+		c.String(200, "Imperial Ruby HDL API EndPoint. Operated by KevinZonda.")
 	})
 }
