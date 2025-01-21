@@ -4,5 +4,6 @@
     "task_dir": "./tmp/task",
     "prelude": "/ruby/rebecca/prelude.rby",
     "rc_path": "/ruby/rebecca/bin/rc.x86-linux",
-    "re_path": "/ruby/rebecca/bin/re15"
+    "re_path": "/ruby/rebecca/bin/re15",
+    "timeout": 30
 }
