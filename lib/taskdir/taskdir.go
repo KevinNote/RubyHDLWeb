@@ -1,6 +1,7 @@
 package taskdir
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 
@@ -57,6 +58,7 @@ func (t *TaskDir) RemoveTask(taskId string) error {
 func (t *TaskDir) JoinTask(taskId string) string {
 	path := t.idToDir(taskId)
 	_, err := os.Stat(path)
+	log.Println(err)
 	if err == nil {
 		return path
 	}
