@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/GoX/pkg/panicx"
@@ -10,7 +11,11 @@ import (
 )
 
 func initCfg() {
-	bs, err := iox.ReadAllByte("config.json")
+	cfgPath := os.Getenv("CFG_PATH")
+	if cfgPath == "" {
+		cfgPath = "config.json"
+	}
+	bs, err := iox.ReadAllByte(cfgPath)
 	panicx.NotNilErr(err)
 	panicx.NotNilErr(shared.LoadConfig(bs))
 }

@@ -1,24 +1,35 @@
 package RubyDHL
 
 import (
+	"context"
 	"log"
 	"os/exec"
+	"time"
 )
 
 type RubyDHL struct {
-	rc string
-	re string
+	rc      string
+	re      string
+	timeout time.Duration
 }
 
-func NewRubyDHL(rc, re string) *RubyDHL {
+func NewRubyDHL(rc, re string, timeout time.Duration) *RubyDHL {
 	return &RubyDHL{
-		rc: rc,
-		re: re,
+		rc:      rc,
+		re:      re,
+		timeout: timeout,
 	}
 }
 
 func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
-	cmd := exec.Command(r.re, "-r", rbs, input)
+	ctx := context.Background()
+	if r.timeout > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, r.timeout)
+		defer cancel()
+	}
+	
+	cmd := exec.CommandContext(ctx, r.re, "-r", rbs, input)
 	cmd.Dir = dir
 
 	out, err := cmd.CombinedOutput()
@@ -30,7 +41,13 @@ func (r *RubyDHL) Re(dir string, rbs string, input string) (string, error) {
 }
 
 func (r *RubyDHL) Rc(dir string, rby string) (string, error) {
-	cmd := exec.Command("sml", "@SMLload="+r.rc, rby)
+	ctx := context.Background()
+	if r.timeout > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, r.timeout)
+		defer cancel()
+	}
+	cmd := exec.CommandContext(ctx, "sml", "@SMLload="+r.rc, rby)
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
 	log.Println("[RC]", dir, string(out), err, cmd, cmd.Args)
