@@ -6,6 +6,7 @@ import (
 
 	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/RubyDHLWeb/controller/types"
+	rbsP "github.com/KevinZonda/RubyDHLWeb/lib/rbs"
 	"github.com/KevinZonda/RubyDHLWeb/lib/taskdir"
 	"github.com/KevinZonda/RubyDHLWeb/shared"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,7 @@ var _ types.IController = (*Controller)(nil)
 func (c *Controller) Init(r gin.IRouter) {
 	r.POST("/ruby/compile", c.Compile)
 	r.POST("/ruby/run", c.Run)
+	r.POST("/ruby/viz", c.Viz)
 }
 
 type CompileReq struct {
@@ -135,4 +137,44 @@ func (ctr *Controller) Run(c *gin.Context) {
 		TaskId: task.Id,
 		Output: out,
 	})
+}
+
+func (ctr *Controller) Viz(c *gin.Context) {
+	var req RunReq
+	var err error
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "parse request body failed"})
+		return
+	}
+
+	task := taskdir.TaskInfo{
+		Id: req.TaskId,
+	}
+
+	if task.Id == "" || (uuid.Validate(task.Id) != nil) {
+		c.JSON(http.StatusBadRequest, RunRes{
+			Err: "task not found",
+		})
+		return
+	}
+
+	task = shared.TaskDir.JoinTask(task.Id)
+
+	rbsBs, err := iox.ReadAllText(task.File("current.rbs"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, RunRes{
+			TaskId: task.Id,
+			Err:    "current.rbs not found",
+		})
+		return
+	}
+
+	circuit := rbsP.ParseCircuit(string(rbsBs))
+	dot := rbsP.VizToDot(circuit)
+
+	c.JSON(http.StatusOK, RunRes{
+		TaskId: task.Id,
+		Output: dot,
+	})
+
 }
